@@ -1,0 +1,21 @@
+/* The one palette every style sheet uses. Change a colour here and it changes
+   everywhere. The values follow Google's own dark theme (Material 3 dark). */
+
+:root {
+  --ddm-bg: #131314; /* the page behind everything */
+  --ddm-surface: #1e1f20; /* bars, panels, menus */
+  --ddm-surface-high: #282a2c; /* raised: dialogs, hovered rows */
+  --ddm-surface-highest: #333537; /* pressed, selected chips */
+  --ddm-text: #e3e3e3;
+  --ddm-text-dim: #c4c7c5; /* secondary text, icons */
+  --ddm-text-faint: #8e918f; /* placeholders, disabled */
+  --ddm-outline: #444746; /* borders and dividers */
+  --ddm-accent: #a8c7fa; /* links, focus, selection */
+  --ddm-accent-container: #004a77; /* selected item background */
+  --ddm-on-accent-container: #c2e7ff;
+  --ddm-error: #f2b8b5;
+
+  /* How canvas content (the Docs page, the Sheets grid) is darkened: invert
+     the lightness, then turn the hue back so colours keep their hue. */
+  --ddm-content-filter: invert(1) hue-rotate(180deg);
+}

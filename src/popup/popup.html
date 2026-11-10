@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Drive Dark Mode</title>
+    <link rel="stylesheet" href="../styles/palette.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Drive Dark Mode</h1>
+      <label class="switch" title="Switch everything on or off">
+        <input type="checkbox" data-setting="enabled" />
+        <span class="track"></span>
+      </label>
+    </header>
+
+    <table id="apps">
+      <thead>
+        <tr>
+          <th></th>
+          <th title="Toolbars, menus, panels and dialogs">Interface</th>
+          <th title="The page in Docs, the grid in Sheets">Content</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <p class="note">
+      Slides are shown in their real colours, since that is how they are
+      presented.
+    </p>
+
+    <script src="../settings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+body {
+  margin: 0;
+  padding: 14px 16px;
+  width: 280px;
+  background: var(--ddm-surface);
+  color: var(--ddm-text);
+  font: 13px/1.4 system-ui, "Segoe UI", sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ddm-outline);
+}
+
+h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 4px 0;
+  color: var(--ddm-text-dim);
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+}
+
+td {
+  padding: 7px 0;
+  text-align: center;
+}
+
+td:first-child {
+  text-align: left;
+}
+
+/* Everything below the main switch dims when the extension is off. */
+body.off table,
+body.off .note {
+  opacity: 0.45;
+}
+
+.note {
+  margin: 10px 0 0;
+  color: var(--ddm-text-faint);
+  font-size: 11px;
+}
+
+.none {
+  color: var(--ddm-text-faint);
+}
+
+/* A switch: a hidden checkbox with a track and a knob drawn over it. */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.switch input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.switch .track {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: var(--ddm-outline);
+  pointer-events: none;
+  transition: background 0.15s;
+}
+
+.switch .track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ddm-text-dim);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.switch input:checked + .track {
+  background: var(--ddm-accent);
+}
+
+.switch input:checked + .track::after {
+  transform: translateX(14px);
+  background: var(--ddm-bg);
+}
+
+.switch input:focus-visible + .track {
+  outline: 2px solid var(--ddm-accent);
+  outline-offset: 2px;
+}
