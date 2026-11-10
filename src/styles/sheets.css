@@ -1,8 +1,54 @@
-/* Google Sheets. */
+/* Google Sheets. Most of the interface comes from Google's own dark theme
+   (see editor-tokens.css); this file holds the grid and what that theme
+   leaves light. */
 
 /* --- Content: the grid ---------------------------------------------------
    The grid is drawn on a canvas, so its colours can only be changed with a
    filter on the whole canvas. */
 :root:not([data-ddm-content="off"]) #waffle-grid-container canvas {
   filter: var(--ddm-content-filter);
+}
+
+/* The box a cell is edited in copies the cell's real colours, so it gets the
+   same filter to look like the cell it sits on. */
+:root:not([data-ddm-content="off"]) .input-box .cell-input {
+  filter: var(--ddm-content-filter);
+}
+
+/* --- Interface: what Google's dark theme leaves light --------------------- */
+
+/* The formula bar. */
+:root:not([data-ddm-ui="off"]) #formula-bar-name-box-wrapper,
+:root:not([data-ddm-ui="off"]) #formula-bar,
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input {
+  background-color: var(--ddm-surface-low);
+}
+
+/* The input that shows the selected cell's content. Google sets it light in
+   several ways (one with !important), so this is forced. */
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input,
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input .cell-input {
+  background-color: var(--ddm-surface-low) !important;
+}
+
+:root:not([data-ddm-ui="off"]) .formula-bar-separator {
+  background-color: var(--ddm-outline);
+}
+
+/* The strips beside the scrollbars, below and to the side of the grid. */
+:root:not([data-ddm-ui="off"]) .grid-shim-bottom,
+:root:not([data-ddm-ui="off"]) .grid-shim-end-ltr,
+:root:not([data-ddm-ui="off"]) .grid-shim-end-rtl {
+  background-color: var(--ddm-surface-low);
+}
+
+/* Their light edges, and those of the scrollbars and the frozen-row and
+   frozen-column bars where they run into the strips. */
+:root:not([data-ddm-ui="off"]) .grid-shim-bottom,
+:root:not([data-ddm-ui="off"]) .grid-shim-end-ltr,
+:root:not([data-ddm-ui="off"]) .grid-shim-end-rtl,
+:root:not([data-ddm-ui="off"]) .column-freezebar-extension,
+:root:not([data-ddm-ui="off"]) .row-freezebar-extension,
+:root:not([data-ddm-ui="off"]) .native-scrollbar {
+  border-color: var(--ddm-outline);
 }

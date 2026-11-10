@@ -1,8 +1,20 @@
-/* Google Docs. */
+/* Google Docs. The interface comes from Google's own dark theme (see
+   editor-tokens.css); this file holds the page. */
 
 /* --- Content: the page ---------------------------------------------------
-   Each page is drawn on a canvas, so its colours can only be changed with a
-   filter on the whole canvas. */
-:root:not([data-ddm-content="off"]) canvas.kix-canvas-tile-content {
+   A page is a stack of layers (the paper, a canvas with the text, overlays),
+   and which layer holds what differs between browsers. So the filter goes on
+   the whole page instead of on one layer. */
+:root:not([data-ddm-content="off"]) .kix-page-paginated {
   filter: var(--ddm-content-filter);
+  /* The line around the page. Google's dark theme makes it dark, and the
+     filter would turn that light again, so it is set to the light grey that
+     the filter turns into a dark one (about #474747). */
+  outline-color: #c8c8c8;
+}
+
+/* Pictures that are elements of their own are turned back. Pictures drawn
+   into the canvas cannot be told apart from the text and stay inverted. */
+:root:not([data-ddm-content="off"]) .kix-page-paginated :is(image, img) {
+  filter: var(--ddm-content-unfilter);
 }

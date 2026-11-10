@@ -1,0 +1,19 @@
+/* Google Slides. The interface comes from Google's own dark theme (see
+   editor-tokens.css); this file holds what that theme leaves light-mode.
+   The slides themselves are never changed: a deck is presented in its real
+   colours. */
+
+/* Speaker notes are drawn as black text for a white box. They are not part
+   of what is presented, so they are turned light to be readable. */
+:root:not([data-ddm-ui="off"]) #speakernotes svg {
+  filter: var(--ddm-content-filter);
+}
+
+/* The grid view and hide-filmstrip buttons under the filmstrip have their
+   light-mode colour written into the icon. */
+:root:not([data-ddm-ui="off"]) #grid-view-icon path,
+:root:not([data-ddm-ui="off"]) #filmstrip-view-icon path,
+:root:not([data-ddm-ui="off"]) #collapse-filmstrip path,
+:root:not([data-ddm-ui="off"]) #expand-filmstrip path {
+  fill: var(--ddm-text-dim);
+}

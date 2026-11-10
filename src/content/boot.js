@@ -14,17 +14,29 @@
 
   const root = document.documentElement;
 
-  function apply(settings) {
-    const state = DDM.stateFor(app, settings);
+  // The editors' own style sheet holds a dark theme that Google has not
+  // switched on: these classes switch it on. Drive has a dark theme of its
+  // own in its settings and does not use them.
+  const GOOGLE_DARK_CLASSES =
+    app === "drive"
+      ? []
+      : ["docsDarkMode", "modeElementsDark", "peoplekitThemeDark"];
+
+  function apply(state) {
     root.setAttribute("data-ddm-app", app);
     root.setAttribute("data-ddm-ui", state.ui ? "on" : "off");
     root.setAttribute("data-ddm-content", state.content ? "on" : "off");
+    for (const name of GOOGLE_DARK_CLASSES) {
+      root.classList.toggle(name, state.ui);
+    }
   }
 
   async function refresh() {
-    apply(await DDM.load());
+    apply(DDM.stateFor(app, await DDM.load()));
   }
 
+  // Dark straight away (the defaults), then whatever the settings say.
+  apply(DDM.stateFor(app, DDM.DEFAULTS));
   refresh();
   browser.storage.onChanged.addListener((_changes, area) => {
     if (area === "local") refresh();

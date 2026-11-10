@@ -3,6 +3,7 @@
 
 :root {
   --ddm-bg: #131314; /* the page behind everything */
+  --ddm-surface-low: #1b1b1b; /* the editors' frame */
   --ddm-surface: #1e1f20; /* bars, panels, menus */
   --ddm-surface-high: #282a2c; /* raised: dialogs, hovered rows */
   --ddm-surface-highest: #333537; /* pressed, selected chips */
@@ -15,7 +16,13 @@
   --ddm-on-accent-container: #c2e7ff;
   --ddm-error: #f2b8b5;
 
-  /* How canvas content (the Docs page, the Sheets grid) is darkened: invert
-     the lightness, then turn the hue back so colours keep their hue. */
-  --ddm-content-filter: invert(1) hue-rotate(180deg);
+  /* How content (the Docs page, the Sheets grid) is darkened: invert the
+     lightness, then turn the hue back so colours keep their hue. The first
+     number sets how dark it gets: 1 turns white into black, 0.88 turns it
+     into dark grey (#1f1f1f) and black text into light grey. */
+  --ddm-content-filter: invert(0.88) hue-rotate(180deg);
+
+  /* Put on pictures inside filtered content, so they are shown the right
+     way round again (slightly softer than the original). */
+  --ddm-content-unfilter: invert(1) hue-rotate(180deg);
 }

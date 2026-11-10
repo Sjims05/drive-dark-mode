@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.0
+
+- Content is dark grey instead of black (one number in palette.css sets it).
+- Docs: the page goes dark in Firefox too (the filter is on the whole page,
+  not only the canvas).
+- Sheets: dark formula bar, cell editor, and the strips and edges around the
+  scrollbars.
+- Slides: readable speaker notes, and light icons under the filmstrip.
+- Docs: a darker line around the page.
+
+Known: the frozen-row and frozen-column bars in the corner of a sheet are
+light. Sheets draws them on the canvas in its dark colour, which the filter
+turns light.
+
+## 0.2.0
+
+- Dark interface in Docs, Sheets and Slides: toolbars, menus, right-click
+  menus and dialogs. It switches on the dark theme that Google's own style
+  sheet already holds, with a copy of its colours as a fallback.
+
 ## 0.1.0
 
 - The extension's frame: manifest, settings, and a popup with a main switch and
