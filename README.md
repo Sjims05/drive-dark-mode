@@ -73,11 +73,11 @@ Google changes its markup without notice. From most to least likely to break:
 
 | What                                 | Depends on                                                                 | If it breaks                                      |
 | ------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------- |
-| Drive's dark interface               | two generated class names, `KkxPLb` (light) and `LgGVmb` (dark), in `content/boot.js` | a Drive set to Light stays light; set Drive itself to Dark |
+| Drive's dark interface, Share dialog  | two generated class names, `KkxPLb` (light) and `LgGVmb` (dark), in `content/boot.js` | a Drive set to Light stays light; set Drive itself to Dark |
 | Drive thumbnails                     | the type icon's colour (`#3186FF` Docs, `#00AF57` Sheets) and `data-drive-has-thumbnail` | thumbnails stay light                |
 | Side panel icons                     | `.app-switcher-button-icon-container` and `_black_` in the icon's address   | the "Get add-ons" plus goes dark again            |
 | Slides filmstrip icons, notes        | `#grid-view-icon`, `#collapse-filmstrip`, `#speakernotes`                   | those icons or the notes are hard to read         |
-| Share dialog, file picker            | the frame addresses `/drivesharing/` and `/picker/`, and `[role="dialog"]`   | those dialogs are light again                     |
+| Share dialog, file picker            | the frame addresses `/drivesharing/` and `/picker/`; the Share dialog also on the two class names above | those dialogs are light again |
 | Sheets formula bar and grid edges    | `#formula-bar`, `#t-formula-bar-input`, `.grid-shim-*`, `.default-formula-text-color` | white areas or black text return        |
 | Docs page                            | `.kix-page-paginated`                                                       | the page stays light                              |
 | Sheets grid                          | `#waffle-grid-container canvas`                                             | the grid stays light                              |

@@ -1,6 +1,6 @@
 # What has been checked
 
-Surface by surface, for version 0.6.0 (2026-11-11). "Seen" means looked at in dark mode, by eye and with a script that
+Surface by surface, for version 0.7.0 (2026-11-11). "Seen" means looked at in dark mode, by eye and with a script that
 lists light backgrounds and dark-on-dark text.
 
 - **Firefox** – real Firefox 159, headless, with the extension installed (`tools/ff.mjs`). Signed out, so public
@@ -21,7 +21,7 @@ lists light backgrounds and dark-on-dark text.
 | Submenus                        | not verified  |                | same component as menus                                  |
 | Right-click menu                | seen          | Pane           |                                                          |
 | Find and replace                | seen          | Pane           |                                                          |
-| Share dialog                    | seen          | Pane           | a page in a frame; darkened with a filter. Not yet seen in Firefox |
+| Share dialog                    | partly seen   | Pane           | a page in a frame with Drive's theme class, which is swapped to dark. Seen dark in Drive; in the editors the same class was seen, the swap itself not |
 | File picker ("Open a file")     | seen          | Pane           | a page in a frame; darkened with a filter. Not yet seen in Firefox |
 | Side panel on the right         | seen          | Pane           | icons and divider; the opened Calendar/Keep/Tasks panels not verified |
 | Comments panel                  | not verified  |                | could not be opened reliably in the pane                 |
@@ -78,15 +78,14 @@ Drive's interface is Drive's own dark theme. When Drive is set to Light, the ext
 | ------------------------------------ | ------------ | ----- | ------------------------------------------------------- |
 | File grid, sidebar, top bar          | seen         | Pane  | Drive's own theme                                       |
 | A light Drive turned dark            | seen         | Pane  | light set by hand, then turned dark and back by the same code. Not yet seen in Firefox, nor with the account really set to Light |
-| Drive logo when turned dark          | not verified |       | the picture may be the one for a light page              |
-| Share dialog in a Drive set to Light | not verified |       | probably stays light                                     |
+| A Drive really set to Light, turned dark | seen     | Pane  | grid, sidebar, top bar, logo, search box and suggestions: no light areas left (script and by eye) |
+| Share dialog in a Drive set to Light | seen         | Pane  | Drive's own dark theme                                   |
 | Thumbnails of Docs and Sheets files  | seen         | Pane  | dark; photos, PDFs, Slides untouched. Confirmed by the user in Firefox |
 | Thumbnails of Word and Excel files   | not verified |       | found by file ending                                    |
 | List view                            | not verified |       | has no thumbnails                                       |
 | Home page (suggested files)          | not verified |       | its cards may be marked up differently                  |
 | File preview overlay                 | not verified |       | not changed by the extension                            |
 | Details pane, right-click menu       | not verified |       | Drive's own theme                                       |
-| Share dialog opened from Drive       | not verified |       | left to Drive's own theme on purpose                    |
 
 ## The extension itself
 
@@ -97,4 +96,4 @@ Drive's interface is Drive's own dark theme. When Drive is set to Light, the ext
 | Content script runs on Docs, Sheets, Slides, Drive | passed      | attributes and classes seen on the page in Firefox |
 | No white flash on load                            | not measured | dark from the first screenshot; no frame-by-frame check |
 | Popup and switches applying live                  | User        | not reachable from the headless check             |
-| Content script in the Share and picker frames     | not verified | needs a signed-in Firefox                         |
+| Content script in the Share and picker frames     | not verified | needs a signed-in Firefox; the logic was run by hand in the pane |

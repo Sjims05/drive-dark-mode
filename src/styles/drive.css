@@ -39,3 +39,13 @@
   ) {
   filter: var(--ddm-content-filter);
 }
+
+/* --- Interface: what Drive's dark theme misses when it is switched on from
+   outside ------------------------------------------------------------------
+   The search box belongs to Google's top bar, which takes its colours from
+   the account setting and not from the theme class. Its text is already
+   light; only the box is not. With Drive itself set to Dark this changes
+   nothing. */
+:root:not([data-ddm-ui="off"]) #aso_search_form_anchor {
+  background-color: var(--ddm-surface-high) !important;
+}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0
+
+- The Share dialog uses Drive's own dark theme instead of a filter, in Drive
+  and in the editors.
+- Drive set to Light: the search box is dark too.
+
 ## 0.6.0
 
 - Drive – Interface now does something: with it on, a Drive that is set to

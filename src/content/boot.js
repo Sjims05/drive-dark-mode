@@ -9,30 +9,27 @@
 // applies at once without a reload.
 
 (() => {
-  // Dialogs that Google loads as a page of their own inside a frame (the
-  // Share dialog) belong to the app of the page around them.
-  const isDialogFrame = window.top !== window;
-  const where = isDialogFrame ? parentLocation() : location;
-  const app = where && DDM.detectApp(where);
-
   const root = document.documentElement;
 
-  if (!app || (isDialogFrame && app === "drive")) {
-    // Not ours, or a dialog inside Drive, which Drive's own dark theme
-    // already covers.
+  // Some dialogs are pages of their own that Google loads inside a frame:
+  // the Share dialog and the file picker. They belong to the app of the page
+  // around them and follow that app's interface switch.
+  const frame =
+    window.top === window
+      ? null
+      : location.pathname.startsWith("/picker/")
+        ? "picker"
+        : "share";
+  const where = frame ? parentLocation() : location;
+  const app = where && DDM.detectApp(where);
+
+  if (!app) {
+    // A frame inside a page that is not ours: leave it alone.
     root.setAttribute("data-ddm-ui", "off");
     root.setAttribute("data-ddm-content", "off");
     return;
   }
-
-  // The editors' own style sheet holds a dark theme that Google has not
-  // switched on: these classes switch it on. Drive has a dark theme of its
-  // own in its settings and does not use them, and a dialog frame has no
-  // such theme at all.
-  const GOOGLE_DARK_CLASSES =
-    app === "drive" || isDialogFrame
-      ? []
-      : ["docsDarkMode", "modeElementsDark", "peoplekitThemeDark"];
+  if (frame) root.setAttribute("data-ddm-frame", frame);
 
   function parentLocation() {
     try {
@@ -42,19 +39,21 @@
     }
   }
 
-  // Which dialog a frame holds; set before the first paint because the
-  // style sheet needs it to pick its rules.
-  if (isDialogFrame) {
-    const kind = location.pathname.startsWith("/picker/") ? "picker" : "share";
-    root.setAttribute("data-ddm-frame", kind);
-  }
+  // --- Google's own dark themes ---------------------------------------------
 
-  // Drive has a light and a dark theme of its own (Settings > Appearance),
-  // marked by a class on <body> and on the layers it adds for menus and
-  // dialogs. With the interface switch on, a light Drive is turned dark by
-  // swapping that class; with it off, Drive is put back as it was. The two
-  // class names are Google's generated ones and the most likely thing in the
-  // extension to change.
+  // The editors' style sheet holds a dark theme that Google has not switched
+  // on: these classes on <html> switch it on.
+  const EDITOR_DARK_CLASSES =
+    app === "drive" || frame
+      ? []
+      : ["docsDarkMode", "modeElementsDark", "peoplekitThemeDark"];
+
+  // Drive and the Share dialog have a light and a dark theme, marked by a
+  // class on <body> and on the layers added for menus and dialogs. A light
+  // one is turned dark by swapping that class, and put back when switched
+  // off. The two class names are Google's generated ones and the most likely
+  // thing in the extension to change.
+  const usesDriveTheme = (app === "drive" && !frame) || frame === "share";
   const driveTheme = (() => {
     const LIGHT = "KkxPLb";
     const DARK = "LgGVmb";
@@ -74,26 +73,26 @@
       }
     }
 
-    function watch() {
-      // <body> does not exist yet at document_start; Drive also sets the
-      // class again and adds layers later.
-      new MutationObserver(sync).observe(root, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-    }
-
     return {
-      watch,
+      watch() {
+        // <body> does not exist yet at document_start, and the page sets
+        // the class again and adds layers later.
+        new MutationObserver(sync).observe(root, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+      },
       want(on) {
         wanted = on;
         sync();
       },
     };
   })();
-  if (app === "drive") driveTheme.watch();
+  if (usesDriveTheme) driveTheme.watch();
+
+  // --- Applying the settings --------------------------------------------------
 
   function apply(settings) {
     const state = DDM.stateFor(app, settings);
@@ -101,13 +100,13 @@
     root.setAttribute("data-ddm-ui", state.ui ? "on" : "off");
     root.setAttribute(
       "data-ddm-content",
-      state.content && !isDialogFrame ? "on" : "off",
+      state.content && !frame ? "on" : "off",
     );
-    for (const name of GOOGLE_DARK_CLASSES) {
+    for (const name of EDITOR_DARK_CLASSES) {
       root.classList.toggle(name, state.ui);
     }
-    if (app === "drive") {
-      driveTheme.want(state.ui);
+    if (usesDriveTheme) driveTheme.want(state.ui);
+    if (app === "drive" && !frame) {
       // Drive shows thumbnails of Docs and Sheets files, which follow those
       // apps' content switches.
       for (const other of ["docs", "sheets"]) {
