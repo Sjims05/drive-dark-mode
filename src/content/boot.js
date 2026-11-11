@@ -9,24 +9,54 @@
 // applies at once without a reload.
 
 (() => {
-  const app = DDM.detectApp(location);
-  if (!app) return;
+  // Dialogs that Google loads as a page of their own inside a frame (the
+  // Share dialog) belong to the app of the page around them.
+  const isDialogFrame = window.top !== window;
+  const where = isDialogFrame ? parentLocation() : location;
+  const app = where && DDM.detectApp(where);
 
   const root = document.documentElement;
 
+  if (!app || (isDialogFrame && app === "drive")) {
+    // Not ours, or a dialog inside Drive, which Drive's own dark theme
+    // already covers.
+    root.setAttribute("data-ddm-ui", "off");
+    root.setAttribute("data-ddm-content", "off");
+    return;
+  }
+
   // The editors' own style sheet holds a dark theme that Google has not
   // switched on: these classes switch it on. Drive has a dark theme of its
-  // own in its settings and does not use them.
+  // own in its settings and does not use them, and a dialog frame has no
+  // such theme at all.
   const GOOGLE_DARK_CLASSES =
-    app === "drive"
+    app === "drive" || isDialogFrame
       ? []
       : ["docsDarkMode", "modeElementsDark", "peoplekitThemeDark"];
+
+  function parentLocation() {
+    try {
+      return window.parent.location.href ? window.parent.location : null;
+    } catch {
+      return null; // a frame on another site
+    }
+  }
+
+  // Which dialog a frame holds; set before the first paint because the
+  // style sheet needs it to pick its rules.
+  if (isDialogFrame) {
+    const kind = location.pathname.startsWith("/picker/") ? "picker" : "share";
+    root.setAttribute("data-ddm-frame", kind);
+  }
 
   function apply(settings) {
     const state = DDM.stateFor(app, settings);
     root.setAttribute("data-ddm-app", app);
     root.setAttribute("data-ddm-ui", state.ui ? "on" : "off");
-    root.setAttribute("data-ddm-content", state.content ? "on" : "off");
+    root.setAttribute(
+      "data-ddm-content",
+      state.content && !isDialogFrame ? "on" : "off",
+    );
     for (const name of GOOGLE_DARK_CLASSES) {
       root.classList.toggle(name, state.ui);
     }

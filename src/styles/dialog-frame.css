@@ -1,0 +1,31 @@
+/* Dialogs that Google loads as a page of their own inside a frame: the Share
+   dialog and the file picker. Such a page has no dark theme, and sets its
+   colours where a style sheet from outside cannot override them cleanly, so
+   it is darkened the way content is: with a filter. content/boot.js marks
+   which dialog the frame holds, and only leaves this on inside Docs, Sheets
+   and Slides. */
+
+/* --- The Share dialog -----------------------------------------------------
+   Its frame covers the whole window, so only the dialog is filtered. */
+
+/* The outermost dialog only, or a dialog inside it would be inverted twice. */
+:root:not([data-ddm-ui="off"])[data-ddm-frame="share"]
+  [role="dialog"]:not([role="dialog"] [role="dialog"]) {
+  filter: var(--ddm-content-filter);
+}
+
+/* Profile pictures are turned back. */
+:root:not([data-ddm-ui="off"])[data-ddm-frame="share"] [role="dialog"] img {
+  filter: var(--ddm-content-unfilter);
+}
+
+/* --- The file picker ("Open a file", "Insert image" from Drive) -----------
+   Its frame is the dialog, so the whole page is filtered. The rule is keyed
+   on the picker's own attribute so it leaves the Share dialog's page alone. */
+:root:not([data-ddm-ui="off"])[data-ddm-frame="picker"] {
+  filter: var(--ddm-content-filter);
+}
+
+:root:not([data-ddm-ui="off"])[data-ddm-frame="picker"] img {
+  filter: var(--ddm-content-unfilter);
+}

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0
+
+- The Share dialog and the file picker ("Open a file") are dark in Docs,
+  Sheets and Slides. They are pages of their own inside a frame, so they get
+  their own rule.
+- README, and docs/checked.md listing what has been checked on each surface.
+
 ## 0.4.0
 
 - Drive: thumbnails of Docs and Sheets files, and of Word and Excel files,
