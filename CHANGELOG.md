@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0
+
+- Drive: thumbnails of Docs and Sheets files, and of Word and Excel files,
+  are dark, following the Docs and Sheets content switches.
+- Sheets: readable formula text in the formula input (operators, numbers).
+- All editors: light "Get add-ons" icon and divider in the side panel.
+
 ## 0.3.0
 
 - Content is dark grey instead of black (one number in palette.css sets it).

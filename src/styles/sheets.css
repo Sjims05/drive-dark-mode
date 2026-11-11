@@ -52,3 +52,22 @@
 :root:not([data-ddm-ui="off"]) .native-scrollbar {
   border-color: var(--ddm-outline);
 }
+
+/* Formula text outside the cell editor (the formula input, the function
+   help): Sheets colours operators and brackets black and numbers dark blue.
+   The cell editor is left alone, because it is filtered as a whole. */
+:root:not([data-ddm-ui="off"]) .default-formula-text-color:not(.input-box *),
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input .waffle-rich-text-link {
+  color: var(--ddm-text);
+}
+
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input .number {
+  color: var(--ddm-accent);
+}
+
+/* Plain values there that the cell colours black. */
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input span[data-sheets-formula-bar-text-style*="color:#000000"],
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input span[style*="color: rgb(0, 0, 0)"],
+:root:not([data-ddm-ui="off"]) #t-formula-bar-input span[style*="color:#000000"] {
+  color: var(--ddm-text) !important;
+}

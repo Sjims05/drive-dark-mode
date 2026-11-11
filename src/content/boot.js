@@ -22,21 +22,30 @@
       ? []
       : ["docsDarkMode", "modeElementsDark", "peoplekitThemeDark"];
 
-  function apply(state) {
+  function apply(settings) {
+    const state = DDM.stateFor(app, settings);
     root.setAttribute("data-ddm-app", app);
     root.setAttribute("data-ddm-ui", state.ui ? "on" : "off");
     root.setAttribute("data-ddm-content", state.content ? "on" : "off");
     for (const name of GOOGLE_DARK_CLASSES) {
       root.classList.toggle(name, state.ui);
     }
+    if (app === "drive") {
+      // Drive shows thumbnails of Docs and Sheets files, which follow those
+      // apps' content switches.
+      for (const other of ["docs", "sheets"]) {
+        const on = DDM.stateFor(other, settings).content;
+        root.setAttribute(`data-ddm-${other}-content`, on ? "on" : "off");
+      }
+    }
   }
 
   async function refresh() {
-    apply(DDM.stateFor(app, await DDM.load()));
+    apply(await DDM.load());
   }
 
   // Dark straight away (the defaults), then whatever the settings say.
-  apply(DDM.stateFor(app, DDM.DEFAULTS));
+  apply(DDM.DEFAULTS);
   refresh();
   browser.storage.onChanged.addListener((_changes, area) => {
     if (area === "local") refresh();

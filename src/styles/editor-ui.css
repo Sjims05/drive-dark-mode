@@ -1,0 +1,15 @@
+/* What Google's dark theme (see editor-tokens.css) leaves light-mode in the
+   parts Docs, Sheets and Slides share. */
+
+/* --- The side panel on the right (Calendar, Keep, add-ons) ---------------- */
+
+/* "Get add-ons" and "more" are black or grey pictures; the app icons beside
+   them are in colour and stay as they are. */
+:root:not([data-ddm-ui="off"]) .app-switcher-button-icon-container[style*="_black_"],
+:root:not([data-ddm-ui="off"]) .app-switcher-button-icon-container[style*="_grey600_"] {
+  filter: invert(1);
+}
+
+:root:not([data-ddm-ui="off"]) .companion-app-switcher-separator {
+  border-color: var(--ddm-outline);
+}

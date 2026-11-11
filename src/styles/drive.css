@@ -1,0 +1,41 @@
+/* Google Drive. Drive has a dark theme of its own (Settings > Appearance),
+   which the extension leaves alone; this file adds what Drive does not do. */
+
+/* --- Content: thumbnails of Docs and Sheets files -------------------------
+   Darkened like the files themselves, following the Docs and Sheets content
+   switches. Other files (pictures, PDFs, Slides) are shown as they are.
+   A thumbnail is one picture, so pictures inside a document are inverted too.
+
+   The file type is read from the colour of the type icon on the card, which
+   is the only thing in Drive's markup that tells the types apart without
+   depending on the language. */
+:root:not([data-ddm-docs-content="off"])
+  [role="gridcell"]:has(svg rect[fill="#3186FF"])
+  img[data-drive-has-thumbnail],
+:root:not([data-ddm-sheets-content="off"])
+  [role="gridcell"]:has(svg rect[fill="#00AF57"])
+  img[data-drive-has-thumbnail] {
+  filter: var(--ddm-content-filter);
+}
+
+/* Word and Excel files (and their OpenDocument kin) open in Docs and Sheets,
+   so their thumbnails follow the same switches. Their type icons have no
+   single colour to read, so these are found by the file name's ending, which
+   the thumbnail carries as its description. A file renamed without its
+   ending is not found. */
+:root:not([data-ddm-docs-content="off"])
+  img[data-drive-has-thumbnail]:is(
+    [alt$=".docx" i],
+    [alt$=".doc" i],
+    [alt$=".odt" i],
+    [alt$=".rtf" i]
+  ),
+:root:not([data-ddm-sheets-content="off"])
+  img[data-drive-has-thumbnail]:is(
+    [alt$=".xlsx" i],
+    [alt$=".xls" i],
+    [alt$=".ods" i],
+    [alt$=".csv" i]
+  ) {
+  filter: var(--ddm-content-filter);
+}

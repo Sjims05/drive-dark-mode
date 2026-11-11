@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Drive Dark Mode",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Dark mode for Google Drive, Docs, Sheets and Slides, including the page in Docs and the grid in Sheets.",
   "icons": {
     "48": "icons/icon.svg",
@@ -29,6 +29,7 @@
       "css": [
         "src/styles/palette.css",
         "src/styles/editor-tokens.css",
+        "src/styles/editor-ui.css",
         "src/styles/docs.css"
       ],
       "js": ["src/settings.js", "src/content/boot.js"]
@@ -39,6 +40,7 @@
       "css": [
         "src/styles/palette.css",
         "src/styles/editor-tokens.css",
+        "src/styles/editor-ui.css",
         "src/styles/sheets.css"
       ],
       "js": ["src/settings.js", "src/content/boot.js"]
@@ -49,6 +51,7 @@
       "css": [
         "src/styles/palette.css",
         "src/styles/editor-tokens.css",
+        "src/styles/editor-ui.css",
         "src/styles/slides.css"
       ],
       "js": ["src/settings.js", "src/content/boot.js"]
@@ -56,7 +59,7 @@
     {
       "matches": ["https://drive.google.com/*"],
       "run_at": "document_start",
-      "css": ["src/styles/palette.css"],
+      "css": ["src/styles/palette.css", "src/styles/drive.css"],
       "js": ["src/settings.js", "src/content/boot.js"]
     }
   ]
