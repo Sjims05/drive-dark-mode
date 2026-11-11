@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+- Drive – Interface now does something: with it on, a Drive that is set to
+  Light is shown in Drive's own dark theme. With it off, Drive's own setting
+  decides.
+
 ## 0.5.0
 
 - The Share dialog and the file picker ("Open a file") are dark in Docs,

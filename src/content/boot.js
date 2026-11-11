@@ -49,6 +49,52 @@
     root.setAttribute("data-ddm-frame", kind);
   }
 
+  // Drive has a light and a dark theme of its own (Settings > Appearance),
+  // marked by a class on <body> and on the layers it adds for menus and
+  // dialogs. With the interface switch on, a light Drive is turned dark by
+  // swapping that class; with it off, Drive is put back as it was. The two
+  // class names are Google's generated ones and the most likely thing in the
+  // extension to change.
+  const driveTheme = (() => {
+    const LIGHT = "KkxPLb";
+    const DARK = "LgGVmb";
+    const swapped = new Set(); // elements this script turned dark
+    let wanted = false;
+
+    function sync() {
+      if (!document.body) return;
+      if (wanted) {
+        for (const el of document.querySelectorAll("." + LIGHT)) {
+          el.classList.replace(LIGHT, DARK);
+          swapped.add(el);
+        }
+      } else {
+        for (const el of swapped) el.classList.replace(DARK, LIGHT);
+        swapped.clear();
+      }
+    }
+
+    function watch() {
+      // <body> does not exist yet at document_start; Drive also sets the
+      // class again and adds layers later.
+      new MutationObserver(sync).observe(root, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    }
+
+    return {
+      watch,
+      want(on) {
+        wanted = on;
+        sync();
+      },
+    };
+  })();
+  if (app === "drive") driveTheme.watch();
+
   function apply(settings) {
     const state = DDM.stateFor(app, settings);
     root.setAttribute("data-ddm-app", app);
@@ -61,6 +107,7 @@
       root.classList.toggle(name, state.ui);
     }
     if (app === "drive") {
+      driveTheme.want(state.ui);
       // Drive shows thumbnails of Docs and Sheets files, which follow those
       // apps' content switches.
       for (const other of ["docs", "sheets"]) {

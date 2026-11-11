@@ -1,6 +1,6 @@
 # What has been checked
 
-Surface by surface, for version 0.5.0 (2026-11-11). "Seen" means looked at in dark mode, by eye and with a script that
+Surface by surface, for version 0.6.0 (2026-11-11). "Seen" means looked at in dark mode, by eye and with a script that
 lists light backgrounds and dark-on-dark text.
 
 - **Firefox** – real Firefox 159, headless, with the extension installed (`tools/ff.mjs`). Signed out, so public
@@ -72,11 +72,14 @@ lists light backgrounds and dark-on-dark text.
 
 ## Drive
 
-Drive's interface is Drive's own dark theme (Settings → Appearance); the extension does not change it.
+Drive's interface is Drive's own dark theme. When Drive is set to Light, the extension switches that theme on.
 
 | Surface                              | Status       | Where | Notes                                                   |
 | ------------------------------------ | ------------ | ----- | ------------------------------------------------------- |
 | File grid, sidebar, top bar          | seen         | Pane  | Drive's own theme                                       |
+| A light Drive turned dark            | seen         | Pane  | light set by hand, then turned dark and back by the same code. Not yet seen in Firefox, nor with the account really set to Light |
+| Drive logo when turned dark          | not verified |       | the picture may be the one for a light page              |
+| Share dialog in a Drive set to Light | not verified |       | probably stays light                                     |
 | Thumbnails of Docs and Sheets files  | seen         | Pane  | dark; photos, PDFs, Slides untouched. Confirmed by the user in Firefox |
 | Thumbnails of Word and Excel files   | not verified |       | found by file ending                                    |
 | List view                            | not verified |       | has no thumbnails                                       |

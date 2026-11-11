@@ -8,7 +8,7 @@ grid in Sheets.
 | Docs   | dark                                         | the page, dark grey                      |
 | Sheets | dark                                         | the grid, dark grey                      |
 | Slides | dark                                         | unchanged: a deck keeps its real colours |
-| Drive  | Drive's own dark theme (see below)           | thumbnails of Docs and Sheets files      |
+| Drive  | dark (Drive's own dark theme, switched on)   | thumbnails of Docs and Sheets files      |
 
 Nothing leaves the browser: no remote code, no network requests, and the only permission is `storage` for the
 settings. It runs only on `docs.google.com/document`, `/spreadsheets`, `/presentation`, the Share and file picker dialogs
@@ -25,8 +25,9 @@ starts.
 
 After changing a file here, press "Reload" on the extension in `about:debugging`, then reload the Google tabs.
 
-Drive's interface is not changed by the extension. Turn its own dark theme on in Drive: the cog → Settings →
-Appearance → Dark. It uses the same colours as the extension does in the editors.
+Drive has a light and a dark theme of its own (the cog → Settings → Appearance). With "Drive – Interface" on, the
+extension shows Drive in its dark theme whatever that setting says, without changing the setting. It uses the same
+colours as the editors.
 
 ## Settings
 
@@ -41,7 +42,7 @@ at once, without reloading the page.
 | Sheets – Interface      | The same as for Docs, plus the formula bar and the area around the grid.              |
 | Sheets – Content        | Dark grid and cell editor in Sheets, and dark thumbnails of Sheets and Excel files.   |
 | Slides – Interface      | Dark interface around the slides, and readable speaker notes. Slides are never changed. |
-| Drive – Interface       | Nothing yet: Drive's own setting decides.                                             |
+| Drive – Interface       | Drive in its own dark theme, even when Drive is set to Light. Off: Drive's setting decides. |
 
 Colours are in [src/styles/palette.css](src/styles/palette.css). How dark the content gets is one number there
 (`--ddm-content-filter`: `0.88` gives dark grey, `1` gives black).
@@ -72,6 +73,7 @@ Google changes its markup without notice. From most to least likely to break:
 
 | What                                 | Depends on                                                                 | If it breaks                                      |
 | ------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------- |
+| Drive's dark interface               | two generated class names, `KkxPLb` (light) and `LgGVmb` (dark), in `content/boot.js` | a Drive set to Light stays light; set Drive itself to Dark |
 | Drive thumbnails                     | the type icon's colour (`#3186FF` Docs, `#00AF57` Sheets) and `data-drive-has-thumbnail` | thumbnails stay light                |
 | Side panel icons                     | `.app-switcher-button-icon-container` and `_black_` in the icon's address   | the "Get add-ons" plus goes dark again            |
 | Slides filmstrip icons, notes        | `#grid-view-icon`, `#collapse-filmstrip`, `#speakernotes`                   | those icons or the notes are hard to read         |
