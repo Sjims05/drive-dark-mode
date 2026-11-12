@@ -78,6 +78,8 @@ Google changes its markup without notice. From most to least likely to break:
 | Side panel icons                     | `.app-switcher-button-icon-container` and `_black_` in the icon's address   | the "Get add-ons" plus goes dark again            |
 | Slides filmstrip icons, notes        | `#grid-view-icon`, `#collapse-filmstrip`, `#speakernotes`                   | those icons or the notes are hard to read         |
 | Share dialog, file picker            | the frame addresses `/drivesharing/` and `/picker/`; the Share dialog also on the two class names above | those dialogs are light again |
+| Home screen previews                 | `.docs-homescreen-grid-item-thumbnail`, `.docs-homescreen-templates-templateview-preview` | previews are light again        |
+| Sheets print settings, panels        | `.waffle-printing-*`, `.waffle-conditionalformat-*`, `.waffle-range-selection-container` | dark text on dark there again   |
 | Sheets formula bar and grid edges    | `#formula-bar`, `#t-formula-bar-input`, `.grid-shim-*`, `.default-formula-text-color` | white areas or black text return        |
 | Docs page                            | `.kix-page-paginated`                                                       | the page stays light                              |
 | Sheets grid                          | `#waffle-grid-container canvas`                                             | the grid stays light                              |

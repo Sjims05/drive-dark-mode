@@ -71,3 +71,81 @@
 :root:not([data-ddm-ui="off"]) #t-formula-bar-input span[style*="color:#000000"] {
   color: var(--ddm-text) !important;
 }
+
+/* --- Print settings ---------------------------------------------------------
+   The screen before printing keeps light-mode text and a light background
+   behind the preview. The preview pages themselves stay white: they show
+   what comes out on paper. */
+:root:not([data-ddm-ui="off"]) .goog-modalpopup:has(.waffle-printing-preview-pane) {
+  background-color: var(--ddm-surface-low);
+}
+
+:root:not([data-ddm-ui="off"]) .waffle-printing-preview-pane {
+  background-color: var(--ddm-bg);
+}
+
+:root:not([data-ddm-ui="off"])
+  .goog-modalpopup:has(.waffle-printing-preview-pane)
+  :is(
+    label,
+    h2,
+    h3,
+    .docs-charts-editor-collapsible-title,
+    .docs-charts-editor-material-menu-button-caption
+  ),
+:root:not([data-ddm-ui="off"]) .waffle-printing-top-level-cancel-button {
+  color: var(--ddm-text);
+}
+
+:root:not([data-ddm-ui="off"])
+  .goog-modalpopup:has(.waffle-printing-preview-pane)
+  .docs-material-gm-labeled-select-label {
+  color: var(--ddm-text-dim);
+}
+
+/* A section heading (Formatting, Headers & footers) when hovered or open. */
+:root:not([data-ddm-ui="off"])
+  .goog-modalpopup:has(.waffle-printing-preview-pane)
+  .docs-charts-editor-collapsible-header:is(
+    .goog-control-hover,
+    .goog-control-focused,
+    .goog-control-checked
+  ) {
+  background-color: var(--ddm-surface-high);
+}
+
+/* The round zoom buttons: white icons on a white button. */
+:root:not([data-ddm-ui="off"]) .waffle-printing-preview-pane .jfk-button-standard {
+  background-color: var(--ddm-surface-highest);
+}
+
+/* --- The home screen (the list of files) ---------------------------------
+   Previews of files and of templates are pictures of light pages, so they
+   are darkened like the files themselves. */
+:root:not([data-ddm-content="off"]) .docs-homescreen-grid-item-thumbnail,
+:root:not([data-ddm-content="off"]) .docs-homescreen-templates-templateview-preview img {
+  filter: var(--ddm-content-filter);
+}
+
+/* --- A sheet shown as a preview (Drive's file preview) ---------------------
+   This is a plain page with the sheet as a table, not the editor, and has no
+   dark theme, so the whole page is filtered. */
+:root:not([data-ddm-content="off"]):has(#sheets-viewport) {
+  background: #fff;
+  filter: var(--ddm-content-filter);
+}
+
+/* --- Conditional formatting panel -------------------------------------------
+   Section titles are dark grey on the dark panel, and the range box is white
+   with white text in it. */
+:root:not([data-ddm-ui="off"]) .waffle-conditionalformat-edit-pill-section-header {
+  color: var(--ddm-text);
+}
+
+:root:not([data-ddm-ui="off"]) .waffle-conditionalformat-edit-pill-section-label {
+  color: var(--ddm-text-dim);
+}
+
+:root:not([data-ddm-ui="off"]) .waffle-range-selection-container {
+  background-color: var(--ddm-surface-high);
+}

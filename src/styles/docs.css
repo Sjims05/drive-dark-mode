@@ -18,3 +18,18 @@
 :root:not([data-ddm-content="off"]) .kix-page-paginated :is(image, img) {
   filter: var(--ddm-content-unfilter);
 }
+
+/* The text cursor sits outside the page and takes the colour of the text it
+   is in (black for black text), so it gets the same filter as the page to
+   stay visible and to keep matching the text. */
+:root:not([data-ddm-content="off"]) .kix-cursor-caret {
+  filter: var(--ddm-content-filter);
+}
+
+/* --- The home screen (the list of files) ---------------------------------
+   Previews of files and of templates are pictures of light pages, so they
+   are darkened like the files themselves. */
+:root:not([data-ddm-content="off"]) .docs-homescreen-grid-item-thumbnail,
+:root:not([data-ddm-content="off"]) .docs-homescreen-templates-templateview-preview img {
+  filter: var(--ddm-content-filter);
+}

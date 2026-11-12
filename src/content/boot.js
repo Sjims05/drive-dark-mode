@@ -11,25 +11,49 @@
 (() => {
   const root = document.documentElement;
 
-  // Some dialogs are pages of their own that Google loads inside a frame:
-  // the Share dialog and the file picker. They belong to the app of the page
-  // around them and follow that app's interface switch.
-  const frame =
-    window.top === window
-      ? null
-      : location.pathname.startsWith("/picker/")
-        ? "picker"
-        : "share";
-  const where = frame ? parentLocation() : location;
+  // What this page is:
+  // - a page of its own in a tab;
+  // - a dialog that Google loads as a page inside a frame (the Share dialog,
+  //   the file picker), which belongs to the app of the page around it and
+  //   follows that app's interface switch;
+  // - a document or sheet shown inside another Google page, such as Drive's
+  //   file preview, which is treated like the file opened in a tab.
+  const inFrame = window.top !== window;
+  const dialog = !inFrame
+    ? null
+    : location.pathname.startsWith("/picker/")
+      ? "picker"
+      : location.pathname.startsWith("/drivesharing/")
+        ? "share"
+        : null;
+  const embedded = inFrame && !dialog;
+
+  let where = location;
+  if (dialog) where = parentLocation();
+  if (embedded && !embeddedByGoogle()) where = null;
   const app = where && DDM.detectApp(where);
 
   if (!app) {
-    // A frame inside a page that is not ours: leave it alone.
+    // Inside a page that is not ours (a document embedded in some other
+    // website, say): leave it alone.
     root.setAttribute("data-ddm-ui", "off");
     root.setAttribute("data-ddm-content", "off");
     return;
   }
-  if (frame) root.setAttribute("data-ddm-frame", frame);
+  if (dialog) root.setAttribute("data-ddm-frame", dialog);
+
+  function embeddedByGoogle() {
+    // The page around a frame on another site cannot be read; the referrer
+    // says where the frame was opened from. No referrer at all is let
+    // through, since Google's own pages sometimes withhold it.
+    if (!document.referrer) return true;
+    try {
+      const host = new URL(document.referrer).hostname;
+      return host === "drive.google.com" || host === "docs.google.com";
+    } catch {
+      return false;
+    }
+  }
 
   function parentLocation() {
     try {
@@ -44,7 +68,7 @@
   // The editors' style sheet holds a dark theme that Google has not switched
   // on: these classes on <html> switch it on.
   const EDITOR_DARK_CLASSES =
-    app === "drive" || frame
+    app === "drive" || dialog
       ? []
       : ["docsDarkMode", "modeElementsDark", "peoplekitThemeDark"];
 
@@ -53,7 +77,7 @@
   // one is turned dark by swapping that class, and put back when switched
   // off. The two class names are Google's generated ones and the most likely
   // thing in the extension to change.
-  const usesDriveTheme = (app === "drive" && !frame) || frame === "share";
+  const usesDriveTheme = (app === "drive" && !dialog) || dialog === "share";
   const driveTheme = (() => {
     const LIGHT = "KkxPLb";
     const DARK = "LgGVmb";
@@ -94,19 +118,37 @@
 
   // --- Applying the settings --------------------------------------------------
 
+  // A sheet's preview page is a plain table with no dark theme of its own;
+  // the style sheet filters it as a whole, like content. So it must not also
+  // get the dark interface colours, or the filter would turn them light.
+  const plainPreview = app === "sheets" && isPreviewPath(location.pathname);
+
+  const nestedPreview =
+    plainPreview && inFrame && isPreviewPath(parentLocation()?.pathname ?? "");
+
+  function isPreviewPath(path) {
+    return /\/preview(\/|$)/.test(path);
+  }
+
   function apply(settings) {
     const state = DDM.stateFor(app, settings);
+    if (plainPreview) {
+      state.ui = false;
+      // The preview holds the sheet in a frame of the same kind; the outer
+      // page's filter already covers it, and a second one would undo it.
+      if (nestedPreview) state.content = false;
+    }
     root.setAttribute("data-ddm-app", app);
     root.setAttribute("data-ddm-ui", state.ui ? "on" : "off");
     root.setAttribute(
       "data-ddm-content",
-      state.content && !frame ? "on" : "off",
+      state.content && !dialog ? "on" : "off",
     );
     for (const name of EDITOR_DARK_CLASSES) {
       root.classList.toggle(name, state.ui);
     }
     if (usesDriveTheme) driveTheme.want(state.ui);
-    if (app === "drive" && !frame) {
+    if (app === "drive" && !dialog) {
       // Drive shows thumbnails of Docs and Sheets files, which follow those
       // apps' content switches.
       for (const other of ["docs", "sheets"]) {

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.0
+
+- Sheets print settings: readable labels and headings, dark background
+  behind the preview, visible zoom buttons. The preview pages stay white.
+- Docs: the text cursor is light on the dark page.
+- Home screens (the file lists of Docs and Sheets): dark previews of files
+  and templates.
+- Documents and sheets shown inside another Google page, such as Drive's file
+  preview, are dark too.
+- Sheets: readable titles and range box in the conditional formatting panel.
+- Drive list view: the preview card shown when hovering a file's icon is dark
+  for Docs and Sheets files.
+
 ## 0.7.0
 
 - The Share dialog uses Drive's own dark theme instead of a filter, in Drive

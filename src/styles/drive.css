@@ -49,3 +49,18 @@
 :root:not([data-ddm-ui="off"]) #aso_search_form_anchor {
   background-color: var(--ddm-surface-high) !important;
 }
+
+/* --- Content: the preview card in list view --------------------------------
+   Hovering a file's type icon in a list shows a card with a preview. It is
+   marked up differently from the grid, but carries the same type icon. Word
+   and Excel files are not found here: the picture has no file name on it. */
+:root:not([data-ddm-docs-content="off"])
+  [role="dialog"]
+  [role="button"]:has(svg rect[fill="#3186FF"])
+  img[src*="/drive-usercontent/"],
+:root:not([data-ddm-sheets-content="off"])
+  [role="dialog"]
+  [role="button"]:has(svg rect[fill="#00AF57"])
+  img[src*="/drive-usercontent/"] {
+  filter: var(--ddm-content-filter);
+}
